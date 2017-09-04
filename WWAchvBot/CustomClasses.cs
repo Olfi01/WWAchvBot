@@ -458,7 +458,7 @@ namespace WWAchvBot
                     return (player.Role == Roles.Harlot && AlivePlayers.Select(e => e.Value.Role).Count(x => x != Roles.Werewolf && x != Roles.WolfCub && x != Roles.AlphaWolf && x != Roles.SerialKiller && x != Roles.Harlot) >= 5) || (player.Role == Roles.Doppelgänger && AlivePlayers.Any(x => x.Value.Role == Roles.Harlot) && AlivePlayers.Select(e => e.Value.Role).Count(x => x != Roles.Werewolf && x != Roles.WolfCub && x != Roles.AlphaWolf && x != Roles.SerialKiller && x != Roles.Harlot && x != Roles.Doppelgänger) >= 5);
 
                 case Achievements.SavedByTheBullet:
-                    return AlivePlayers.Select(e => e.Value.Role).Contains(Roles.Gunner) && Spawnablewolves >= 1 && !new[] { Roles.AlphaWolf, Roles.Werewolf, Roles.WolfCub }.Contains(player.Role);
+                    return AlivePlayers.Select(e => e.Value.Role).Contains(Roles.Gunner) && Spawnablewolves >= 1 && !new[] { Roles.AlphaWolf, Roles.Werewolf, Roles.WolfCub, Roles.Sorcerer, Roles.SerialKiller, Roles.Doppelgänger, Roles.Cultist }.Contains(player.Role); // this needs checking - which roles can get it and which can't?
 
                 case Achievements.SelfLoving:
                     return player.Role == Roles.Cupid && (players.Count(x => x.Value.Love) < 2 || player.Love);
