@@ -149,6 +149,7 @@ namespace WWAchvBot
                     case "disable":
                         maintenance = false;
                         EditMessage(startuptxt + "\n\n" + update.CallbackQuery.From.FirstName + " disabled maintenance.", update.CallbackQuery.Message);
+                        SendMessage("<b>The bot is no longer under maintenance! You can now play games!</b>", achvgroup);
                         return;
                 }
             }

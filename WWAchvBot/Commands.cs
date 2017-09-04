@@ -685,13 +685,8 @@ namespace WWAchvBot
                 {
                     SendMessage("<b>After this game, the bot is going down for maintenance!</b>", g.Pinmessage.Chat.Id);
                 }
-            }
-            else
-            {
-                SendMessage("<b>The bot is no longer under maintenance! You can now play games!</b>", achvgroup);
-            }
-            if (maintenance)
-            {
+
+
                 if (Game.Games.Count == 0)
                 {
                     ReplyToMessage("The maintenance mode was <b>enabled</b>, there are no more games running. What would you like to do?", update, InlineKeyboards.Update);
@@ -703,6 +698,7 @@ namespace WWAchvBot
             }
             else
             {
+                SendMessage("<b>The bot is no longer under maintenance! You can now play games!</b>", achvgroup);
                 ReplyToMessage("The maintenance mode was <b>disabled</b>!", update);
             }
         }
