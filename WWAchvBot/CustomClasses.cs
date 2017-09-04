@@ -232,6 +232,7 @@ namespace WWAchvBot
 
         public void Stop()
         {
+            var askupdate = Gamestate == State.Running;
             Gamestate = State.Stopped;
             UpdatePlayerlist();
             if (DefaultPinMessage != null) Methods.PinMessage(DefaultPinMessage);
@@ -239,7 +240,7 @@ namespace WWAchvBot
 
             if (maintenance)
             {
-                if (Games.Count == 1)
+                if (Games.Count == 1 && askupdate)
                 {
                     Methods.SendMessage($"A game was just stopped, no games are running anymore! What would you like to do?", testgroup, InlineKeyboards.Update);
                 }
