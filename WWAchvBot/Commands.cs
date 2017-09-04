@@ -709,9 +709,21 @@ namespace WWAchvBot
             {
                 SendMessage("<b>The bot is no longer under maintenance! You can now play games!</b>", achvgroup);
             }
-
-            var word = maintenance ? $"enabled. There are <b>{Game.Games.Count}</b> games still running." : "disabled.";
-            ReplyToMessage($"The maintenance mode was {word}", update);
+            if (maintenance)
+            {
+                if (Game.Games.Count == 0)
+                {
+                    ReplyToMessage("The maintenance mode was <b>enabled</b>, there are no more games running. What would you like to do?", update, InlineKeyboards.Update);
+                }
+                else
+                {
+                    ReplyToMessage("The maintenance mode was <b>enabled</b>. There are <b>" + Game.Games.Count + "</b> games still running.", update);
+                }
+            }
+            else
+            {
+                ReplyToMessage("The maintenance mode was <b>disabled</b>!", update);
+            }
         }
 
 
@@ -1024,14 +1036,7 @@ namespace WWAchvBot
                 return;
             }
 
-            startuptxt = "<b>Restarting...</b>\n";
-            startup = SendMessage(startuptxt, testgroup);
-
-            DateTime endtime = DateTime.UtcNow;
-            startuptxt += $"Bot stopped at \n<code>{endtime.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n\n<b>Shutdown complete.</b>";
-            EditMessage(startuptxt, startup);
-            System.Diagnostics.Process.Start(restartFile);
-            running = false;
+            ReplyToMessage("You used the reboot command. What would you like to do?", update, InlineKeyboards.Update);
         }
 
 

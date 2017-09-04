@@ -98,5 +98,46 @@ namespace WWAchvBot
                 Timer t = new Timer(new TimerCallback(delegate { try { justCalledStartStop.Remove(update.Message.From.Id); } catch { } }), null, 10000, Timeout.Infinite);
             }
         }
+
+        public static void RestartBot(Update update, string[] args)
+        {
+            if (devs.Contains(update.CallbackQuery.From.Id))
+            {
+                switch (args[1])
+                {
+                    case "update":
+                        client.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "You chose to update the bot").Wait();
+                        EditMessage(update.CallbackQuery.Message.Text + "\n\n" + update.CallbackQuery.From.FirstName + " chose to update the bot.", update.CallbackQuery.Message);
+                        startuptxt = "<b>Updating...</b>\n";
+                        startup = SendMessage(startuptxt, testgroup);
+
+                        DateTime endtime1 = DateTime.UtcNow;
+                        startuptxt += $"Bot stopped at \n<code>{endtime1.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n\n<b>Shutdown complete.</b>";
+                        EditMessage(startuptxt, startup);
+                        System.Diagnostics.Process.Start(updateFile);
+                        running = false;
+                        return;
+
+                    case "noupdate":
+                        client.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "You chose to restart the bot").Wait();
+                        EditMessage(update.CallbackQuery.Message.Text + "\n\n" + update.CallbackQuery.From.FirstName + " chose to restart the bot.", update.CallbackQuery.Message);
+                        startuptxt = "<b>Restarting...</b>\n";
+                        startup = SendMessage(startuptxt, testgroup);
+
+                        DateTime endtime2 = DateTime.UtcNow;
+                        startuptxt += $"Bot stopped at \n<code>{endtime2.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n\n<b>Shutdown complete.</b>";
+                        EditMessage(startuptxt, startup);
+                        System.Diagnostics.Process.Start(restartFile);
+                        running = false;
+                        return;
+
+                    case "abort":
+                        client.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "You chose to do nothing").Wait();
+                        EditMessage(update.CallbackQuery.Message.Text + "\n\n" + update.CallbackQuery.From.FirstName + " chose to do nothing.", update.CallbackQuery.Message);
+                        return;
+                }
+            }
+            else client.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "You are not a bot dev!").Wait();
+        }
     }
 }

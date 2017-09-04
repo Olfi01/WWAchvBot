@@ -234,7 +234,14 @@ namespace WWAchvBot
 
             if (maintenance)
             {
-                Methods.SendMessage($"A game was just stopped! <b>{Games.Count - 1}</b> more running.", testgroup);
+                if (Games.Count == 1)
+                {
+                    Methods.SendMessage($"A game was just stopped, no games are running anymore! What would you like to do?", testgroup, InlineKeyboards.Update);
+                }
+                else
+                {
+                    Methods.SendMessage($"A game was just stopped! <b>{Games.Count - 1}</b> more running.", testgroup);
+                }
             }
         }
 
@@ -271,11 +278,11 @@ namespace WWAchvBot
             {
 
                 case State.Joining:
-                    Methods.EditMessage($"<b>Join this game!</b>\n\nJoin using the button and remember to use /addplayer after joining. Click the start button below as soon as the roles are assigned and the game begins. <b>DON'T PRESS START BEFORE THE ROLES ARE ASSIGNED!</b>\n\n{playerlist}", Pinmessage, InlineKeyboards.Start.Get(Pinmessage.Chat.Id));
+                    Methods.EditMessage($"<b>Join this game!</b>\n\nJoin using the button and remember to use /addplayer after joining. Click the start button below as soon as the roles are assigned and the game begins. <b>DON'T PRESS START BEFORE THE ROLES ARE ASSIGNED!</b>\n\n{playerlist}", Pinmessage, InlineKeyboards.JoiningGamePin(Pinmessage.Chat.Id));
                     break;
 
                 case State.Running:
-                    Methods.EditMessage($"<b>Game running!</b>\n\nPress stop <b>ONCE THE GAME STOPPED!</b>\n\n{playerlist}", Pinmessage, InlineKeyboards.Stop.Get(Pinmessage.Chat.Id));
+                    Methods.EditMessage($"<b>Game running!</b>\n\nPress stop <b>ONCE THE GAME STOPPED!</b>\n\n{playerlist}", Pinmessage, InlineKeyboards.RunningGamePin(Pinmessage.Chat.Id));
                     break;
 
                 case State.Stopped:
@@ -667,31 +674,42 @@ namespace WWAchvBot
             }
         }
 
-        public class Start
+        public static IReplyMarkup JoiningGamePin(long chatid)
         {
-            public static IReplyMarkup Get(long chatid)
-            {
-                return new InlineKeyboardMarkup(
-
-                    new InlineKeyboardButton[]
-                    {
-                        new InlineKeyboardCallbackButton("Start", "startgame|" + chatid.ToString()),
-                        new InlineKeyboardCallbackButton("Abort", "stopgame|" + chatid.ToString()),
-                    }
-                );
-            }
+            return new InlineKeyboardMarkup(
+                
+                new InlineKeyboardButton[]
+                {
+                    new InlineKeyboardCallbackButton("Start", "startgame|" + chatid.ToString()),
+                    new InlineKeyboardCallbackButton("Abort", "stopgame|" + chatid.ToString()),
+                }
+            );
         }
 
-        public class Stop
+        public static IReplyMarkup RunningGamePin(long chatid)
         {
-            public static IReplyMarkup Get(long chatid)
+            return new InlineKeyboardMarkup(
+
+                new InlineKeyboardButton[]
+                {
+                    new InlineKeyboardCallbackButton("Stop", "stopgame|" + chatid.ToString()),
+                }
+            );
+        }
+
+        public static IReplyMarkup Update
+        {
+            get
             {
                 return new InlineKeyboardMarkup(
 
                     new InlineKeyboardButton[]
                     {
-                        new InlineKeyboardCallbackButton("Stop", "stopgame|" + chatid.ToString()),
+                        new InlineKeyboardCallbackButton("Update", "restart|update"),
+                        new InlineKeyboardCallbackButton("Restart", "restart|noupdate"),
+                        new InlineKeyboardCallbackButton("Nothing", "restart|abort"),
                     }
+                    
                 );
             }
         }

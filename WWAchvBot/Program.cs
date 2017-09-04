@@ -17,6 +17,7 @@ namespace WWAchvBot
         public static string token;
         public const string connectionstring = "Data Source=C:\\Olgabrezel\\AchvBot.sqlite;Version=3;";
         public const string restartFile = "C:\\Olgabrezel\\RestartAchvBot.bat";
+        public const string updateFile = "C:\\Olgabrezel\\UpdateAchvBot.bat";
 
         public static User Bot;
         public static readonly int[] wwbots = new[] { 175844556, 198626752 };
@@ -339,6 +340,7 @@ namespace WWAchvBot
             commands.Add("/stopgame", type.GetMethod("StopGame"));
             commands.Add("/flee", type.GetMethod("FleePlayer"));
             commands.Add("/dead", type.GetMethod("FleePlayer"));
+            commands.Add("/la", type.GetMethod("ListAchievements"));
             commands.Add("/listachv", type.GetMethod("ListAchievements"));
             commands.Add("/love", type.GetMethod("ToggleLoveStatus"));
             commands.Add("/getpin", type.GetMethod("GetPin"));
@@ -351,7 +353,6 @@ namespace WWAchvBot
             commands.Add("#ping", type.GetMethod("SummonPinglist"));
             commands.Add("/ping", type.GetMethod("Ping"));
             commands.Add("/version", type.GetMethod("GetVersion"));
-            commands.Add("/la", type.GetMethod("ListAlias"));
             commands.Add("/listalias", type.GetMethod("ListAlias"));
             commands.Add("/runinfo", type.GetMethod("RunInfo"));
             commands.Add("/listcommands", type.GetMethod("ListCommands"));
