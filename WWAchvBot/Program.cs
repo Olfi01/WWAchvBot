@@ -296,7 +296,7 @@ namespace WWAchvBot
                     var text = e.Update.CallbackQuery.Data;
 
                     var args = new[] { text.Split('|')[0], text.Remove(0, text.IndexOf('|') + 1) };
-                    if (maintenance && long.Parse(args[1]) != testgroup && !adminIds.Contains(e.Update.CallbackQuery.From.Id)) return;
+                    if (maintenance && !adminIds.Contains(e.Update.CallbackQuery.From.Id)) return;
 
                     if (callbacks.ContainsKey(args[0])) callbacks[args[0]].Invoke(null, new object[] { e.Update, args });
                 }
