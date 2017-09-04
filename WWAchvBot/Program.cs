@@ -385,6 +385,7 @@ namespace WWAchvBot
 
             callbacks.Add("startgame", type.GetMethod("GameStart"));
             callbacks.Add("stopgame", type.GetMethod("GameEnd"));
+            callbacks.Add("restart", type.GetMethod("RestartBot"));
             //...
         }
         #endregion
