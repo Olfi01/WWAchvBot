@@ -329,6 +329,7 @@ namespace WWAchvBot
             commands.Add("/start", type.GetMethod("Start"));
             commands.Add("/startgame", type.GetMethod("StartGame"));
             commands.Add("/startchaos", type.GetMethod("StartGame"));
+            commands.Add("/ap", type.GetMethod("AddPlayer"));
             commands.Add("/addplayer", type.GetMethod("AddPlayer"));
             commands.Add("/stopgame", type.GetMethod("StopGame"));
             commands.Add("/flee", type.GetMethod("FleePlayer"));
