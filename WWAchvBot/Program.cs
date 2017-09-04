@@ -138,7 +138,7 @@ namespace WWAchvBot
             client.StartReceiving();
             starttime = DateTime.UtcNow;
             startuptxt += $"Bot started receiving at <code>{starttime.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n\n<b>Startup complete.</b>\n";
-            Methods.EditMessage(startuptxt, startup);
+            Methods.EditMessage(startuptxt, startup, InlineKeyboards.Startup);
 
 
             while (running)
@@ -378,6 +378,7 @@ namespace WWAchvBot
             callbacks.Add("startgame", type.GetMethod("GameStart"));
             callbacks.Add("stopgame", type.GetMethod("GameEnd"));
             callbacks.Add("restart", type.GetMethod("RestartBot"));
+            callbacks.Add("maint", type.GetMethod("Maintenance"));
             //...
         }
 #endregion

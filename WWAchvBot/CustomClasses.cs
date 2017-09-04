@@ -674,7 +674,7 @@ namespace WWAchvBot
                     new InlineKeyboardButton[]
                     {
                         new InlineKeyboardUrlButton("Subscribe", $"https://t.me/{Bot.Username}?start=subscribe"),
-                        new InlineKeyboardUrlButton("Unsubscribe", $"https://t.me/{Bot.Username}?start=unsubscribe")
+                        new InlineKeyboardUrlButton("Unsubscribe", $"https://t.me/{Bot.Username}?start=unsubscribe"),
                     }
                 );
             }
@@ -716,6 +716,21 @@ namespace WWAchvBot
                         new InlineKeyboardCallbackButton("Nothing", "restart|abort"),
                     }
                     
+                );
+            }
+        }
+
+        public static IReplyMarkup Startup
+        {
+            get
+            {
+                return new InlineKeyboardMarkup(
+
+                    new InlineKeyboardButton[]
+                    {
+                        new InlineKeyboardCallbackButton("Disable Maintenance", "maint|disable"),
+                    }
+
                 );
             }
         }

@@ -139,5 +139,19 @@ namespace WWAchvBot
             }
             else client.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "You are not a bot dev!").Wait();
         }
+
+        public static void Maintenance(Update update, string[] args)
+        {
+            if (adminIds.Contains(update.CallbackQuery.From.Id))
+            {
+                switch (args[1])
+                {
+                    case "disable":
+                        maintenance = false;
+                        EditMessage(startuptxt + "\n\n" + update.CallbackQuery.From.FirstName + " disabled maintenance.", update.CallbackQuery.Message);
+                        return;
+                }
+            }
+        }
     }
 }
