@@ -266,6 +266,7 @@ namespace WWAchvBot
             var fs = new FileStream("C:\\Olgabrezel\\AchvBot.sqlite", FileMode.Open);
             var t = client.SendDocumentAsync(chatid, new FileToSend("AchvBot.sqlite", fs), "#AchvBotBackup");
             t.Wait();
+            fs.Close();
             return t.Result;
 #endif
         }
