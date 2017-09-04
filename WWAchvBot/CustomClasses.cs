@@ -301,21 +301,21 @@ namespace WWAchvBot
 
         public void CalculateAchvInfo()
         {
-            Spawnablewolves = players.Count(x => new[] { Roles.AlphaWolf, Roles.Werewolf, Roles.WolfCub }.Contains(x.Value.Role));
-            Spawnablewolves += players.Select(e => e.Value.Role).Count(x => x == Roles.WildChild);
-            Spawnablewolves += Spawnablewolves > 0 ? players.Select(e => e.Value.Role).Count(x => x == Roles.Cursed) : 0;
-            Spawnablewolves += Spawnablewolves > 0 ? players.Select(e => e.Value.Role).Count(x => x == Roles.Doppelgänger) : 0;
-            Spawnablewolves += players.Select(e => e.Value.Role).Count(x => x == Roles.Traitor);
-            if (players.Select(e => e.Value.Role).Contains(Roles.AlphaWolf)) Spawnablewolves = (players.Count / 2 - 2); // Round about... lol
+            AlivePlayers = players.Where(x => x.Value.Alive).ToList();
+
+            Spawnablewolves = AlivePlayers.Count(x => new[] { Roles.AlphaWolf, Roles.Werewolf, Roles.WolfCub }.Contains(x.Value.Role));
+            Spawnablewolves += AlivePlayers.Select(e => e.Value.Role).Count(x => x == Roles.WildChild);
+            Spawnablewolves += Spawnablewolves > 0 ? AlivePlayers.Select(e => e.Value.Role).Count(x => x == Roles.Cursed) : 0;
+            Spawnablewolves += Spawnablewolves > 0 ? AlivePlayers.Select(e => e.Value.Role).Count(x => x == Roles.Doppelgänger) : 0;
+            Spawnablewolves += AlivePlayers.Select(e => e.Value.Role).Count(x => x == Roles.Traitor);
+            if (AlivePlayers.Select(e => e.Value.Role).Contains(Roles.AlphaWolf)) Spawnablewolves = (AlivePlayers.Count() / 2 - 2); // Round about... lol
 
             Visitcount += Spawnablewolves >= 1 ? 1 : 0;
-            Visitcount += players.Select(e => e.Value.Role).Contains(Roles.Cultist) ? 1 : 0;
-            Visitcount += players.Select(e => e.Value.Role).Count(x => x == Roles.SerialKiller);
-            Visitcount += players.Select(e => e.Value.Role).Count(x => x == Roles.CultistHunter);
-            Visitcount += players.Select(e => e.Value.Role).Count(x => x == Roles.Harlot);
-            Visitcount += players.Select(e => e.Value.Role).Count(x => x == Roles.GuardianAngel);
-
-            AlivePlayers = players.Where(x => x.Value.Alive).ToList();
+            Visitcount += AlivePlayers.Select(e => e.Value.Role).Contains(Roles.Cultist) ? 1 : 0;
+            Visitcount += AlivePlayers.Select(e => e.Value.Role).Count(x => x == Roles.SerialKiller);
+            Visitcount += AlivePlayers.Select(e => e.Value.Role).Count(x => x == Roles.CultistHunter);
+            Visitcount += AlivePlayers.Select(e => e.Value.Role).Count(x => x == Roles.Harlot);
+            Visitcount += AlivePlayers.Select(e => e.Value.Role).Count(x => x == Roles.GuardianAngel);
         }
 
         public enum State
