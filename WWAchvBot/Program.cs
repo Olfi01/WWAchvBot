@@ -164,7 +164,7 @@ namespace WWAchvBot
                         {
                             Methods.ReplyToMessage("<b>Hey there!</b>\n\nYou just sent me a message in your group. Sorry, but I am only to be used in my own group: @WWAchievement. If you want to use me, come there, we are glad about every single new member! :D\n\n<b>Good bye.</b>", e.Update);
                             client.LeaveChatAsync(e.Update.Message.Chat.Id).Wait();
-                            Methods.SendMessage(e.Update.Message.From.FirstName + " (" + e.Update.Message.From.Id + ", @" + e.Update.Message.From.Username + ") just sent a message to me in the group " + e.Update.Message.Chat.Title + " (" + e.Update.Message.Chat.Id + "), which I left because it is not an allowed group.", testgroup);
+                            Methods.SendMessage(e.Update.Message.From.FirstName + " (" + e.Update.Message.From.Id + ", @" + e.Update.Message.From.Username + ") just sent a message to me in the group " + e.Update.Message.Chat.Title + " (" + e.Update.Message.Chat.Id + ", @" + e.Update.Message.Chat.Username + "), which I left because it is not an allowed group.", testgroup);
                             return;
                         }
                         #endregion
@@ -254,7 +254,7 @@ namespace WWAchvBot
                                 {
                                     Methods.ReplyToMessage("<b>Hey there!</b>\n\nYou just added me to your group. Sorry, but I am only to be used in my own group: @WWAchievement. If you want to use me, come there, we are glad about every single new member! :D\n\n<b>Good bye.</b>", e.Update);
                                     client.LeaveChatAsync(e.Update.Message.Chat.Id).Wait();
-                                    Methods.SendMessage(e.Update.Message.From.FirstName + " (" + e.Update.Message.From.Id + ", @" + e.Update.Message.From.Username + ") just added me to the group " + e.Update.Message.Chat.Title + " (" + e.Update.Message.Chat.Id + "), which I left because it is not an allowed group.", testgroup);
+                                    Methods.SendMessage(e.Update.Message.From.FirstName + " (" + e.Update.Message.From.Id + ", @" + e.Update.Message.From.Username + ") just added me to the group " + e.Update.Message.Chat.Title + " (" + e.Update.Message.Chat.Id + ", @" + e.Update.Message.Chat.Username + "), which I left because it is not an allowed group.", testgroup);
                                 }
                             }
                             else
