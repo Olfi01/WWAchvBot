@@ -186,6 +186,48 @@ namespace WWAchvBot
             return null;
         }
 
+        public static bool PinMessage(Message msg, bool disableNotification = true)
+        {
+            try
+            {
+                var t = client.PinChatMessageAsync(msg.Chat.Id, msg.MessageId, disableNotification);
+                t.Wait();
+                return t.Result;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool UnpinMessage(long chatid)
+        {
+            try
+            {
+                var t = client.UnpinChatMessageAsync(chatid);
+                t.Wait();
+                return t.Result;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static Message GetPinnedMessage(long chatid)
+        {
+            try
+            {
+                var t = client.GetChatAsync(chatid);
+                t.Wait();
+                return null; // this will return "t.Result.PinMessage" as soon as telegram.bot is up-to-date
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public static void SendError(Exception e, long chatid, bool informGroup = true)
         {
             var error = e.Message + "\n\n";
@@ -218,14 +260,18 @@ namespace WWAchvBot
         {
             if (chatid == 0) chatid = testgroup;
 
+#if DEBUG
+            return SendMessage("*this would be a backup if I was running on release*", chatid);
+#else
             var fs = new FileStream("C:\\Olgabrezel\\AchvBot.sqlite", FileMode.Open);
             var t = client.SendDocumentAsync(chatid, new FileToSend("AchvBot.sqlite", fs), "#AchvBotBackup");
             t.Wait();
             return t.Result;
+#endif
         }
-        #endregion
+#endregion
 
-        #region Other API Methods
+#region Other API Methods
         public static bool IsGroupAdmin(Update update)
         {
             return IsGroupAdmin(update.Message.From.Id, update.Message.Chat.Id);
@@ -258,12 +304,12 @@ namespace WWAchvBot
             t.Wait();
             return t.Result.User;
         }
-        #endregion
+#endregion
 
 
         public static class SQL
         {
-            #region Bot Table
+#region Bot Table
             public static string ReadToken()
             {
                 var query = "select token from bot";
@@ -358,9 +404,9 @@ namespace WWAchvBot
 
                 return t;
             }
-            #endregion
+#endregion
 
-            #region Users
+#region Users
             public static Dictionary<int, BotUser> ReadUsers()
             {
                 var query = "select * from users";
@@ -415,9 +461,9 @@ namespace WWAchvBot
                 comm.ExecuteNonQuery();
                 conn.Close();
             }
-            #endregion
+#endregion
 
-            #region Aliases
+#region Aliases
             public static Dictionary<string, Game.Roles> ReadAliases()
             {
                 var query = "select * from rolealiases";
@@ -481,9 +527,9 @@ namespace WWAchvBot
                 comm.ExecuteNonQuery();
                 conn.Close();
             }
-            #endregion
+#endregion
 
-            #region Admins
+#region Admins
             public static List<int> ReadAdmins()
             {
                 var query = "select id from admins";
@@ -502,9 +548,9 @@ namespace WWAchvBot
                 return admins;
             }
 
-            #endregion
+#endregion
 
-            #region Rolestrings
+#region Rolestrings
             public static Dictionary<Game.Roles, string> ReadRolestrings()
             {
                 var query = "select * from roles";
@@ -530,9 +576,9 @@ namespace WWAchvBot
                 conn.Close();
                 return rolestring;
             }
-            #endregion
+#endregion
 
-            #region Bugreports
+#region Bugreports
             public static void AddReport(string bug, int reporter)
             {
                 var query = $"insert into bugreports (reportedby, message) values ({reporter}, '{bug.Replace("'", "''")}')";
@@ -556,7 +602,7 @@ namespace WWAchvBot
                 conn.Close();
                 return i;
             }
-            #endregion
+#endregion
         }
     }
 }

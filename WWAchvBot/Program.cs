@@ -54,8 +54,7 @@ namespace WWAchvBot
         public static bool errorsupression = false;
         public const string version = "1.2.4";
 
-
-        public static Dictionary<long, Message> pinmessages = new Dictionary<long, Message>();
+        public static Dictionary<long, Message> Pinmessages = new Dictionary<long, Message>();
 
         static void Main(string[] args)
         {
@@ -121,14 +120,8 @@ namespace WWAchvBot
             }
             Methods.EditMessage(startuptxt, startup);
 
-            if (!System.IO.File.Exists(restartFile))
-            {
-                System.IO.File.Create(restartFile);
-                System.IO.File.WriteAllText(restartFile, "@echo off\necho Restarting the bot...\ntimeout /t 5 /nobreak\nstart \"%userprofile%\\Desktop\\Release achv\\Release\\WWAchievementBot.exe\"\nexit");
-                startuptxt += "Created restart file because it <b>didn't exist!</b>\n";
-            }
-            else startuptxt += "Located restart file!\n";
-            Methods.EditMessage(startuptxt, startup);
+            if (!System.IO.File.Exists(restartFile)) startuptxt += "<b>No restart file found!</b>\n";
+            if (!System.IO.File.Exists(updateFile)) startuptxt += "<b>No update file found!</b>\n";
 
             GameClearer.Start();
             startuptxt += "The Game Cleaner was started!\n";
@@ -307,7 +300,7 @@ namespace WWAchvBot
                 {
                     #region Daily Backup
                     var temp = Methods.SendBackup();
-                    if (temp != null && temp.Caption == "#AchvBotBackup")
+                    if (temp != null && (temp.Caption == "#AchvBotBackup" || temp.Text == "*this would be a backup if I was running on release*"))
                     {
                         LatestBackup = temp;
                     }
@@ -328,7 +321,7 @@ namespace WWAchvBot
             }
         }
 
-        #region Assign Commands
+#region Assign Commands
         private static void AssignCommands()
         {
             Type type = typeof(Commands);
@@ -360,14 +353,12 @@ namespace WWAchvBot
             //...
 
 
-            admincommands.Add("/genpin", type.GetMethod("GenPin"));
-            admincommands.Add("/setpin", type.GetMethod("SetPin"));
-            admincommands.Add("/delpin", type.GetMethod("DelPin"));
             admincommands.Add("/addalias", type.GetMethod("AddAlias"));
             admincommands.Add("/delalias", type.GetMethod("DelAlias"));
             admincommands.Add("/userinfo", type.GetMethod("UserInfo"));
             admincommands.Add("/mostactive", type.GetMethod("MostActive"));
             admincommands.Add("/supresserrors", type.GetMethod("SupressErrors"));
+            admincommands.Add("/pin", type.GetMethod("SetDefaultPin"));
             //...
 
             devcommands.Add("/shutdown", type.GetMethod("ShutDown"));
@@ -388,6 +379,6 @@ namespace WWAchvBot
             callbacks.Add("restart", type.GetMethod("RestartBot"));
             //...
         }
-        #endregion
+#endregion
     }
 }

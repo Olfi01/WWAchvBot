@@ -117,6 +117,7 @@ namespace WWAchvBot
         public State Gamestate { get; set; }
         public DateTime Updatetime { get; set; }
         public bool Notified { get; set; }
+        public Message DefaultPinMessage { get; set; }
 
         public int Spawnablewolves { get; set; }
         public int Visitcount { get; set; }
@@ -124,9 +125,11 @@ namespace WWAchvBot
 
         public string Lynchorder = "";
 
-        public Game(Message pin)
+        public Game(Message pin, Message defaultPin)
         {
+            DefaultPinMessage = defaultPin;
             Pinmessage = pin;
+            if (!Methods.PinMessage(pin)) Methods.SendMessage("Can't pin a message! Please inform this group's creator to make me admin!", pin.Chat.Id);
             UpdatePlayerlist();
             Updatetime = DateTime.UtcNow;
             Notified = false;
@@ -231,6 +234,8 @@ namespace WWAchvBot
         {
             Gamestate = State.Stopped;
             UpdatePlayerlist();
+            if (DefaultPinMessage != null) Methods.PinMessage(DefaultPinMessage);
+            else Methods.UnpinMessage(Pinmessage.Chat.Id);
 
             if (maintenance)
             {
