@@ -642,7 +642,7 @@ namespace WWAchvBot
         {
             if (update.Message.Chat.Type == ChatType.Private)
             {
-                string helptext = $"Hello! This is @{Bot.Username}, who helps you to farm achievements in @wwachievement. Here are <b>some instructions:</b>\n\n" +
+                string helptext = $"Hello! This is @{Bot.Username}, who helps you to farm werewolf achievements in @wwachievement. Here are <b>some instructions:</b>\n\n" +
                     "1. After you joined a game of werewolf, send <code>/ap</code> in the group so I know you're participating.\n\n" +
                     "2. When the game starts, go to the pinned message and double hit the start button. If it aborts, double hit the abort button.\n\n" +
                     "3. After the game started, say your role (or an abbrevation) in the group. Just like this: \"<code>ga</code>\" or \"<code>werewolf</code>\"\n\n" +
@@ -651,7 +651,7 @@ namespace WWAchvBot
                     "6. You can also set a custom lynchorder using <code>/slo</code>. Either reply to the order or mention it after the command. In your custom order, you can use <code>$lynchorder</code> and it will be replaced by my default lynchorder.\n\n" +
                     "7. To reset the custom lynchorder, use <code>/rslo</code>.\n\n" +
                     "8. If you die, send <code>/dead</code> to mark yourself as dead.\n\n" +
-                    "9. If your role changes, send <code>now [your new role]</code>, for example \"<code>now ga</code>\" or \"<code>now werewolf</code>\"" +
+                    "9. If your role changes, send <code>now [your new role]</code>, for example \"<code>now ga</code>\" or \"<code>now werewolf</code>\"\n\n" +
                     "10. When the game stops, go to the pinned message and double hit the stop button.\n\n" +
                     "<b>Have fun hunting achievements!</b>";
 

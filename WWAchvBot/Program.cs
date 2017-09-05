@@ -52,7 +52,7 @@ namespace WWAchvBot
         public static bool running = true;
         public static bool maintenance = true;
         public static bool errorsupression = false;
-        public const string version = "1.2.4";
+        public const string version = "1.2.5";
 
         public static Dictionary<long, Message> Pinmessages = new Dictionary<long, Message>();
 
