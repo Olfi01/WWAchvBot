@@ -225,7 +225,7 @@ namespace WWAchvBot
                         justCalledStartStop.Remove(update.Message.From.Id);
                         Game.Games[chatid].Stop();
                         Game.Games.Remove(chatid);
-                        ReplyToMessage($"<b>{update.Message.From.FirstName}</b> has considered the game stopped!", update);
+                        ReplyToMessage($"{BotUser.users[update.Message.From.Id].LinkedName} has considered the game stopped!", update);
                     }
                     else
                     {
@@ -581,26 +581,30 @@ namespace WWAchvBot
         /// </summary>
         public static void ListCommands(Update update, string[] args)
         {
-            if (devs.Contains(update.Message.From.Id))
+            if (update.Message.Chat.Type == ChatType.Private)
             {
-                List<string> commands = Program.commands.Keys.Select(x => x.Replace("/", "")).ToList();
-                List<string> admincommands = Program.admincommands.Keys.Select(x => x.Replace("/", "")).ToList();
-                List<string> devcommands = Program.devcommands.Keys.Select(x => x.Replace("/", "")).ToList();
+                if (devs.Contains(update.Message.From.Id))
+                {
+                    List<string> commands = Program.commands.Keys.Select(x => x.Replace("/", "")).ToList();
+                    List<string> admincommands = Program.admincommands.Keys.Select(x => x.Replace("/", "")).ToList();
+                    List<string> devcommands = Program.devcommands.Keys.Select(x => x.Replace("/", "")).ToList();
 
-                ReplyToMessage("<b>User commands:</b>\n" + string.Join("\n", commands) + "\n\n\n<b>Admin commands:</b>\n" + string.Join("\n", admincommands) + "\n\n\n<b>Dev commands:</b>\n" + string.Join("\n", devcommands), update);
-            }
-            if (adminIds.Contains(update.Message.From.Id))
-            {
-                List<string> commands = Program.commands.Keys.Select(x => x.Replace("/", "")).ToList();
-                List<string> admincommands = Program.admincommands.Keys.Select(x => x.Replace("/", "")).ToList();
+                    ReplyToMessage("<b>User commands:</b>\n" + string.Join("\n", commands) + "\n\n\n<b>Admin commands:</b>\n" + string.Join("\n", admincommands) + "\n\n\n<b>Dev commands:</b>\n" + string.Join("\n", devcommands), update);
+                }
+                else if (adminIds.Contains(update.Message.From.Id))
+                {
+                    List<string> commands = Program.commands.Keys.Select(x => x.Replace("/", "")).ToList();
+                    List<string> admincommands = Program.admincommands.Keys.Select(x => x.Replace("/", "")).ToList();
 
-                ReplyToMessage("<b>User commands:</b>\n" + string.Join("\n", commands) + "\n\n\n<b>Admin commands:</b>\n" + string.Join("\n", admincommands), update);
+                    ReplyToMessage("<b>User commands:</b>\n" + string.Join("\n", commands) + "\n\n\n<b>Admin commands:</b>\n" + string.Join("\n", admincommands), update);
+                }
+                else
+                {
+                    List<string> commands = Program.commands.Keys.Select(x => x.Replace("/", "")).ToList();
+                    ReplyToMessage("<b>User commands:</b>\n" + string.Join("\n", commands), update);
+                }
             }
-            else
-            {
-                List<string> commands = Program.commands.Keys.Select(x => x.Replace("/", "")).ToList();
-                ReplyToMessage("<b>User commands:</b>\n" + string.Join("\n", commands), update);
-            }
+            else ReplyToMessage("You need to use this command in PM!", update);
         }
 
 
