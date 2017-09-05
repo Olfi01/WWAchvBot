@@ -170,6 +170,7 @@ namespace WWAchvBot
                         #endregion
 
                         #region Are we handling this message?
+                        if (e.Update.Message.Chat.Type == ChatType.Channel) return;
                         if (maintenance && e.Update.Message.Chat.Id != testgroup && !adminIds.Contains(e.Update.Message.From.Id) && !Game.Games.ContainsKey(e.Update.Message.Chat.Id)) return;
                         if (e.Update.Message.Date.ToUniversalTime() < starttime.AddSeconds(5)) return;
                         #endregion
