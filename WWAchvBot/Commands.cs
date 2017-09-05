@@ -45,38 +45,39 @@ namespace WWAchvBot
                 SQL.ModifyUser("modify", BotUser.users[update.Message.From.Id]);
             }
 
-            List<string> deeplinkstarts = new List<string>() { "subscribe", "unsubscribe" };
+            if (string.IsNullOrEmpty(args[1])) args[1] = "";
 
-            if (string.IsNullOrEmpty(args[1]) || !deeplinkstarts.Contains(args[1])) // normal bot start
+            switch (args[1])
             {
-                ReplyToMessage("Welcome! This is the manager bot of the @wwachievement group. It's a group where everyone helps each other farming achievements with @werewolfbot. Feel free to join us! :)", update);
-            }
-            else // started via deep link, e.g. to subscribe to the pinglist
-            {
-                switch (args[1])
-                {
-                    case "subscribe":
-                        if (!BotUser.users[update.Message.From.Id].Subscribing)
-                        {
-                            BotUser.users[update.Message.From.Id].Subscribing = true;
-                            SQL.ModifyUser("modify", BotUser.users[update.Message.From.Id]);
-                            ReplyToMessage("You successfully subscribed to the pinglist! I'll inform you whenever someone triggers the pinglist by \"#ping\"", update);
-                            LogToChannel($"{BotUser.users[update.Message.From.Id].Name} (@{BotUser.users[update.Message.From.Id].Username}, <code>{update.Message.From.Id}</code>) just subscribed the #ping list!\n\nNumber of users: {BotUser.users.Count}\nNumber of subs: {BotUser.users.Count(x => x.Value.Subscribing)}\nPercentage of subs: {(BotUser.users.Count(x => x.Value.Subscribing) / BotUser.users.Count) * 100}%");
-                        }
-                        else ReplyToMessage("You were already subscribing to the pinglist!", update);
-                        break;
+                case "subscribe":
+                    if (!BotUser.users[update.Message.From.Id].Subscribing)
+                    {
+                        BotUser.users[update.Message.From.Id].Subscribing = true;
+                        SQL.ModifyUser("modify", BotUser.users[update.Message.From.Id]);
+                        ReplyToMessage("You successfully subscribed to the pinglist! I'll inform you whenever someone triggers the pinglist by \"#ping\"", update);
+                        LogToChannel($"{BotUser.users[update.Message.From.Id].Name} (@{BotUser.users[update.Message.From.Id].Username}, <code>{update.Message.From.Id}</code>) just subscribed the #ping list!\n\nNumber of users: {BotUser.users.Count}\nNumber of subs: {BotUser.users.Count(x => x.Value.Subscribing)}");
+                    }
+                    else ReplyToMessage("You were already subscribing to the pinglist!", update);
+                    break;
 
-                    case "unsubscribe":
-                        if (BotUser.users[update.Message.From.Id].Subscribing)
-                        {
-                            BotUser.users[update.Message.From.Id].Subscribing = false;
-                            SQL.ModifyUser("modify", BotUser.users[update.Message.From.Id]);
-                            ReplyToMessage("You successfully stopped subscribing from the pinglist!", update);
-                            LogToChannel($"{BotUser.users[update.Message.From.Id].Name} (@{BotUser.users[update.Message.From.Id].Username}, <code>{update.Message.From.Id}</code>) just unsubscribed the #ping list!\n\nNumber of users: {BotUser.users.Count}\nNumber of subs: {BotUser.users.Count(x => x.Value.Subscribing)}\nPercentage of subs: {(BotUser.users.Count(x => x.Value.Subscribing) / BotUser.users.Count) * 100}%");
-                        }
-                        else ReplyToMessage("You weren't even subscribing to the pinglist!", update);
-                        break;
-                }
+                case "unsubscribe":
+                    if (BotUser.users[update.Message.From.Id].Subscribing)
+                    {
+                        BotUser.users[update.Message.From.Id].Subscribing = false;
+                        SQL.ModifyUser("modify", BotUser.users[update.Message.From.Id]);
+                        ReplyToMessage("You successfully stopped subscribing from the pinglist!", update);
+                        LogToChannel($"{BotUser.users[update.Message.From.Id].Name} (@{BotUser.users[update.Message.From.Id].Username}, <code>{update.Message.From.Id}</code>) just unsubscribed the #ping list!\n\nNumber of users: {BotUser.users.Count}\nNumber of subs: {BotUser.users.Count(x => x.Value.Subscribing)}");
+                    }
+                    else ReplyToMessage("You weren't even subscribing to the pinglist!", update);
+                    break;
+
+                case "help":
+                    HelpText(update, args);
+                    break;
+
+                default:
+                    ReplyToMessage("Welcome! This is the manager bot of the @wwachievement group. It's a group where everyone helps each other farming achievements with @werewolfbot. Feel free to join us! :)", update);
+                    break;
             }
         }
 
@@ -632,6 +633,33 @@ namespace WWAchvBot
             ReplyToMessage("Your bug was reported to Ludwig. Bug ID: #b" + id, update);
             SendMessage($"<b>New</b> #AchvBug<b>!</b>\n\n<b>Reported by:</b> {FormatHTML(update.Message.From.FirstName)} ({update.Message.From.Id}, @{update.Message.From.Username})\n\n<b>Bug ID:</b> #b{id}\n\n<b>Message:</b>\n {args[1]}", testgroup);
         }
+
+
+        /// <summary>
+        /// Called on commands: /help, /start help
+        /// </summary>
+        public static void HelpText(Update update, string[] args)
+        {
+            if (update.Message.Chat.Type == ChatType.Private)
+            {
+                string helptext = $"Hello! This is @{Bot.Username}, who helps you to farm achievements in @wwachievement. Here are <b>some instructions:</b>\n\n" +
+                    "1. After you joined a game of werewolf, send <code>/ap</code> in the group so I know you're participating.\n\n" +
+                    "2. When the game starts, go to the pinned message and double hit the start button. If it aborts, double hit the abort button.\n\n" +
+                    "3. After the game started, say your role (or an abbrevation) in the group. Just like this: \"<code>ga</code>\" or \"<code>werewolf</code>\"\n\n" +
+                    "4. When everyone's role is known, use <code>/la</code> and I will tell you, who can get which achievements.\n\n" +
+                    "5. When the lynch phase starts, use <code>/lo</code> to get the lynchorder. Everyone votes the name below his own and the lynching is balanced.\n\n" +
+                    "6. You can also set a custom lynchorder using <code>/slo</code>. Either reply to the order or mention it after the command. In your custom order, you can use <code>$lynchorder</code> and it will be replaced by my default lynchorder.\n\n" +
+                    "7. To reset the custom lynchorder, use <code>/rslo</code>.\n\n" +
+                    "8. If you die, send <code>/dead</code> to mark yourself as dead.\n\n" +
+                    "9. If your role changes, send <code>now [your new role]</code>, for example \"<code>now ga</code>\" or \"<code>now werewolf</code>\"" +
+                    "10. When the game stops, go to the pinned message and double hit the stop button.\n\n" +
+                    "<b>Have fun hunting achievements!</b>";
+
+                ReplyToMessage(helptext, update);
+            }
+            else ReplyToMessage("You need to use this command in PM!", update);
+        }
+
 
         /// <summary>
         /// Called on assigning roles.

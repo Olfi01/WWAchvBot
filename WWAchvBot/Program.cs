@@ -352,6 +352,7 @@ namespace WWAchvBot
             commands.Add("/runinfo", type.GetMethod("RunInfo"));
             commands.Add("/listcommands", type.GetMethod("ListCommands"));
             commands.Add("/reportbug", type.GetMethod("ReportBug"));
+            commands.Add("/help", type.GetMethod("HelpText"));
             //...
 
 
