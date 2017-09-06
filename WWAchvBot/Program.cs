@@ -19,8 +19,8 @@ namespace WWAchvBot
         public const string gitPullFile = "C:\\Olgabrezel\\PullAchvGit.bat";
         public const string nugetRestoreFile = "C:\\Olgabrezel\\RestoreAchvNuget.bat";
         public const string buildFile = "C:\\Olgabrezel\\BuildAchvDevenv.bat";
-        public const string builtExePath = "C:\\Users\\Flom\\Desktop\\AchvBot\\WWAchvBot\\WWAchvBot\\bin\\Release\\WWAchvBot.exe";
-        public const string destinationExePath = "C:\\Users\\Flom\\Desktop\\AchvBot\\Running\\";
+        public const string sourceReleasePath = "C:\\Users\\Flom\\Desktop\\AchvBot\\WWAchvBot\\WWAchvBot\\bin\\Release\\";
+        public const string destinationReleasePath = "C:\\Users\\Flom\\Desktop\\AchvBot\\Running\\";
 
         public static User Bot;
         public static readonly int[] wwbots = new[] { 175844556, 198626752 };

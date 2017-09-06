@@ -317,9 +317,9 @@ namespace WWAchvBot
                 updateMessage = EditMessage(updateMessage.Text + "\nPackages restored.\n\n<b>Building release...</b>", updateMessage);
                 System.Diagnostics.Process.Start(buildFile).WaitForExit();
                 updateMessage = EditMessage(updateMessage.Text + "\nRelease built.\n\n<b>Copying release to bot...</b>", updateMessage);
-                var path = destinationExePath + "Build_" + DateTime.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss");
+                var path = destinationReleasePath + "Build_" + DateTime.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss");
                 System.IO.Directory.CreateDirectory(path);
-                System.IO.File.Copy(builtExePath, path);
+                System.IO.File.Copy(sourceReleasePath + "*.*", path);
                 updateMessage = EditMessage(updateMessage.Text + "\nRelease copied to bot. Path:\n\n" + path + "\\WWAchvBot.exe\n\n<b>Operation complete.</b>", updateMessage);
             }
         }
