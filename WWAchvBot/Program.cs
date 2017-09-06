@@ -154,6 +154,7 @@ namespace WWAchvBot
                 Thread.Sleep(1000);
             }
             GameClearer.Abort();
+            client.StopReceiving();
             if (!string.IsNullOrEmpty(NewExeToStart)) System.Diagnostics.Process.Start(NewExeToStart);
             return;
         }

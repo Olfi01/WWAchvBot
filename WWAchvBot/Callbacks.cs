@@ -113,7 +113,6 @@ namespace WWAchvBot
                         startup = SendMessage(startuptxt, testgroup);
 
                         DateTime endtime = DateTime.UtcNow;
-                        client.StopReceiving();
                         startuptxt += $"Bot stopped at \n<code>{endtime.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n\n<b>Shutdown complete.</b>";
                         EditMessage(startuptxt, startup);
                         NewExeToStart = newest;
