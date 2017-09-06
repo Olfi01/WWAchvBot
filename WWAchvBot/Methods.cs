@@ -337,11 +337,11 @@ namespace WWAchvBot
                 System.Diagnostics.Process.Start("xcopy.exe", $"/E {sourceReleasePath} {path}").WaitForExit();
 
                 int deleted = 0;
-                var builds = System.IO.Directory.EnumerateDirectories(destinationReleasePath);
+                var builds = System.IO.Directory.EnumerateDirectories(destinationReleasePath).OrderBy(s => s).ToList();
 
-                foreach (var build in builds.Take(builds.Count() - 3)) // keep the current build and 2 previous builds
+                if (builds.Count > 3) foreach (var build in builds.GetRange(0, builds.Count - 3)) // keep the current build and 2 previous builds
                 {
-                    System.IO.Directory.Delete(build);
+                    System.IO.Directory.Delete(build, true);
                     deleted++;
                 }
 
