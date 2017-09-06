@@ -297,7 +297,7 @@ namespace WWAchvBot
                 #region Callback queries
                 else if (e.Update.Type == UpdateType.CallbackQueryUpdate)
                 {
-                    if (e.Update.CallbackQuery.Message.Date.ToUniversalTime() > DateTime.UtcNow.AddSeconds(5))
+                    if (e.Update.CallbackQuery.Message.Date.ToUniversalTime() > starttime.AddSeconds(5))
                     {
                         var text = e.Update.CallbackQuery.Data;
 
