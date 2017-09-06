@@ -568,7 +568,9 @@ namespace WWAchvBot
         public static void RunInfo(Update update, string[] args)
         {
             string infomessage = "<b>RUNTIME INFO:</b>\n";
-            infomessage += "Running for: <b>" + (DateTime.UtcNow - starttime).ToString().Remove((DateTime.UtcNow - starttime).ToString().LastIndexOf('.') + 2) + "</b>\n";
+            string runningfor = (DateTime.UtcNow - startup.Date.ToUniversalTime()).ToString();
+            runningfor = runningfor.Remove(runningfor.LastIndexOf('.') + 2);
+            infomessage += "Running for: <b>" + runningfor + "</b>\n";
             infomessage += "Running games: <b>" + Game.Games.Count + "</b>\n";
             ReplyToMessage(infomessage, update);
         }

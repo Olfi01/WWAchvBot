@@ -52,12 +52,11 @@ namespace WWAchvBot
 
         public static Message LatestBackup;
 
-        public static DateTime starttime;
         public static ITelegramBotClient client;
         public static bool running = true;
         public static bool maintenance = true;
         public static bool errorsupression = false;
-        public const string version = "1.2.6";
+        public const string version = "1.2.6a";
 
         public static Dictionary<long, Message> Pinmessages = new Dictionary<long, Message>();
 
@@ -144,8 +143,7 @@ namespace WWAchvBot
 
             client.OnUpdate += OnUpdate;
             client.StartReceiving();
-            starttime = DateTime.UtcNow;
-            startuptxt += $"Bot started receiving at <code>{starttime.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n<b>Version {version}</b> running.\n\n<b>Startup complete.</b>\n";
+            startuptxt += $"Bot started receiving at <code>{DateTime.UtcNow.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n<b>Version {version}</b> running.\n\n<b>Startup complete.</b>\n";
             Methods.EditMessage(startuptxt, startup, InlineKeyboards.Startup);
 
 
@@ -182,7 +180,7 @@ namespace WWAchvBot
                         #region Are we handling this message?
                         if (e.Update.Message.Chat.Type == ChatType.Channel) return;
                         if (maintenance && e.Update.Message.Chat.Id != testgroup && !adminIds.Contains(e.Update.Message.From.Id) && !Game.Games.ContainsKey(e.Update.Message.Chat.Id)) return;
-                        if (e.Update.Message.Date.ToUniversalTime() < starttime.AddSeconds(5)) return;
+                        if (e.Update.Message.Date.ToUniversalTime() < startup.Date.ToUniversalTime()) return;
                         #endregion
 
                         #region Game cleaner time update?
@@ -297,7 +295,7 @@ namespace WWAchvBot
                 #region Callback queries
                 else if (e.Update.Type == UpdateType.CallbackQueryUpdate)
                 {
-                    if (e.Update.CallbackQuery.Message.Date.ToUniversalTime() > starttime.AddSeconds(5))
+                    if (e.Update.CallbackQuery.Message.Date.ToUniversalTime() >= startup.Date.ToUniversalTime())
                     {
                         var text = e.Update.CallbackQuery.Data;
 
