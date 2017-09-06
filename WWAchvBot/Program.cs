@@ -141,7 +141,7 @@ namespace WWAchvBot
             client.OnUpdate += OnUpdate;
             client.StartReceiving();
             starttime = DateTime.UtcNow;
-            startuptxt += $"Bot started receiving at <code>{starttime.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n<b>Version {version} running.</b>\n\n<b>Startup complete.</b>\n";
+            startuptxt += $"Bot started receiving at <code>{starttime.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n<b>Version {version}</b> running.\n\n<b>Startup complete.</b>\n";
             Methods.EditMessage(startuptxt, startup, InlineKeyboards.Startup);
 
 
