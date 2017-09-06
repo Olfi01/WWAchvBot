@@ -106,7 +106,7 @@ namespace WWAchvBot
                 switch (args[1])
                 {
                     case "restart":
-                        client.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "You chose to restart the bot").Wait();
+                        AnswerCallback("You chose to restart the bot.", update.CallbackQuery.Id);
                         EditMessage(update.CallbackQuery.Message.Text + "\n\n" + update.CallbackQuery.From.FirstName + " chose to restart the bot. The newest build will be run now.", update.CallbackQuery.Message);
                         var newest = System.IO.Directory.EnumerateDirectories(destinationReleasePath).OrderBy(s => s).Last() + "\\WWAchvBot.exe";
                         startuptxt = "<b>Restarting...</b>\n";
@@ -121,7 +121,7 @@ namespace WWAchvBot
                         return;
 
                     case "abort":
-                        client.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "You chose to do nothing").Wait();
+                        AnswerCallback("You chose to do nothing", update.CallbackQuery.Id);
                         EditMessage(update.CallbackQuery.Message.Text + "\n\n" + update.CallbackQuery.From.FirstName + " chose to do nothing.", update.CallbackQuery.Message);
                         return;
                 }

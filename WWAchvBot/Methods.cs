@@ -269,6 +269,20 @@ namespace WWAchvBot
             return SendMessage("*this would be a backup if I was running on release*", chatid);
 #endif
         }
+
+        public static bool AnswerCallback(string text, string queryid, bool alert = false, string url = null)
+        {
+            try
+            {
+                var t = client.AnswerCallbackQueryAsync(queryid, text, alert, url);
+                t.Wait();
+                return t.Result;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         #endregion
 
         #region Other API Methods
