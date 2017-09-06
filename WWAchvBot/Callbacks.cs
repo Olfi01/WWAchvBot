@@ -105,29 +105,18 @@ namespace WWAchvBot
             {
                 switch (args[1])
                 {
-                    case "update":
-                        client.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "You chose to update the bot").Wait();
-                        EditMessage(update.CallbackQuery.Message.Text + "\n\n" + update.CallbackQuery.From.FirstName + " chose to update the bot.", update.CallbackQuery.Message);
-                        startuptxt = "<b>Updating...</b>\n";
-                        startup = SendMessage(startuptxt, testgroup);
-
-                        DateTime endtime1 = DateTime.UtcNow;
-                        startuptxt += $"Bot stopped at \n<code>{endtime1.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n\n<b>Shutdown complete.</b>";
-                        EditMessage(startuptxt, startup);
-                        System.Diagnostics.Process.Start(updateFile);
-                        running = false;
-                        return;
-
-                    case "noupdate":
+                    case "restart":
                         client.AnswerCallbackQueryAsync(update.CallbackQuery.Id, "You chose to restart the bot").Wait();
-                        EditMessage(update.CallbackQuery.Message.Text + "\n\n" + update.CallbackQuery.From.FirstName + " chose to restart the bot.", update.CallbackQuery.Message);
+                        EditMessage(update.CallbackQuery.Message.Text + "\n\n" + update.CallbackQuery.From.FirstName + " chose to restart the bot. The newest build will be run now.", update.CallbackQuery.Message);
+                        var newest = System.IO.Directory.EnumerateDirectories(destinationExePath).OrderBy(s => s).Last() + "\\WWAchvBot.exe";
                         startuptxt = "<b>Restarting...</b>\n";
                         startup = SendMessage(startuptxt, testgroup);
 
-                        DateTime endtime2 = DateTime.UtcNow;
-                        startuptxt += $"Bot stopped at \n<code>{endtime2.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n\n<b>Shutdown complete.</b>";
+                        DateTime endtime1 = DateTime.UtcNow;
+                        client.StopReceiving();
+                        startuptxt += $"Bot stopped at \n<code>{endtime1.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n\n<b>Shutdown complete.</b>";
                         EditMessage(startuptxt, startup);
-                        System.Diagnostics.Process.Start(restartFile);
+                        System.Diagnostics.Process.Start(newest);
                         running = false;
                         return;
 

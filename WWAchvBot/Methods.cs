@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -260,19 +258,19 @@ namespace WWAchvBot
         {
             if (chatid == 0) chatid = testgroup;
 
-#if DEBUG
-            return SendMessage("*this would be a backup if I was running on release*", chatid);
-#else
+#if RELEASE
             var fs = new FileStream("C:\\Olgabrezel\\AchvBot.sqlite", FileMode.Open);
             var t = client.SendDocumentAsync(chatid, new FileToSend("AchvBot.sqlite", fs), "#AchvBotBackup");
             t.Wait();
             fs.Close();
             return t.Result;
+#else
+            return SendMessage("*this would be a backup if I was running on release*", chatid);
 #endif
         }
-#endregion
+        #endregion
 
-#region Other API Methods
+        #region Other API Methods
         public static bool IsGroupAdmin(Update update)
         {
             return IsGroupAdmin(update.Message.From.Id, update.Message.Chat.Id);
@@ -307,6 +305,24 @@ namespace WWAchvBot
         }
 #endregion
 
+        public static class BotUpdate
+        {
+            public static void Run(object obj)
+            {
+                var updateMessage = (Message)obj;
+                updateMessage = EditMessage(updateMessage.Text + "\n\n<b>Pulling git...</b>", updateMessage);
+                System.Diagnostics.Process.Start(gitPullFile).WaitForExit();
+                updateMessage = EditMessage(updateMessage.Text + "\nGit pulled.\n\n<b>Restoring nuget packages...</b>", updateMessage);
+                System.Diagnostics.Process.Start(nugetRestoreFile).WaitForExit();
+                updateMessage = EditMessage(updateMessage.Text + "\nPackages restored.\n\n<b>Building release...</b>", updateMessage);
+                System.Diagnostics.Process.Start(buildFile).WaitForExit();
+                updateMessage = EditMessage(updateMessage.Text + "\nRelease built.\n\n<b>Copying release to bot...</b>", updateMessage);
+                var path = destinationExePath + "Build_" + DateTime.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss");
+                System.IO.Directory.CreateDirectory(path);
+                System.IO.File.Copy(builtExePath, path);
+                updateMessage = EditMessage(updateMessage.Text + "\nRelease copied to bot. Path:\n\n" + path + "\\WWAchvBot.exe\n\n<b>Operation complete.</b>", updateMessage);
+            }
+        }
 
         public static class SQL
         {

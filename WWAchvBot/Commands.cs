@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
-using System.Net;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using static WWAchvBot.Program;
 using static WWAchvBot.Methods;
-using System.IO;
 
 namespace WWAchvBot
 {
@@ -1077,6 +1074,15 @@ namespace WWAchvBot
 
             if (Pinmessages[update.Message.Chat.Id] != null) Methods.PinMessage(Pinmessages[update.Message.Chat.Id]);
             ReplyToMessage((Pinmessages[update.Message.Chat.Id] == null ? "The pin message was removed." : "The pin message was set."), update);
+        }
+
+
+        /// <summary>
+        /// Called on admin commands: /update
+        /// </summary>
+        public static void UpdateBot(Update update, string[] args)
+        {
+            new Thread(BotUpdate.Run).Start(ReplyToMessage("UPDATING", update));
         }
     }
 }

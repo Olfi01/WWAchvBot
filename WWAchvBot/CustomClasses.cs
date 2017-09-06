@@ -711,8 +711,7 @@ namespace WWAchvBot
 
                     new InlineKeyboardButton[]
                     {
-                        new InlineKeyboardCallbackButton("Update", "restart|update"),
-                        new InlineKeyboardCallbackButton("Restart", "restart|noupdate"),
+                        new InlineKeyboardCallbackButton("Restart", "restart|restart"),
                         new InlineKeyboardCallbackButton("Nothing", "restart|abort"),
                     }
                     

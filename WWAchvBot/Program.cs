@@ -8,7 +8,6 @@ using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
 
 namespace WWAchvBot
 {
@@ -16,8 +15,12 @@ namespace WWAchvBot
     {
         public static string token;
         public const string connectionstring = "Data Source=C:\\Olgabrezel\\AchvBot.sqlite;Version=3;";
-        public const string restartFile = "C:\\Olgabrezel\\RestartAchvBot.bat";
-        public const string updateFile = "C:\\Olgabrezel\\UpdateAchvBot.bat";
+
+        public const string gitPullFile = "C:\\Olgabrezel\\PullAchvGit.bat";
+        public const string nugetRestoreFile = "C:\\Olgabrezel\\RestoreAchvNuget.bat";
+        public const string buildFile = "C:\\Olgabrezel\\BuildAchvDevenv.bat";
+        public const string builtExePath = "C:\\Users\\Flom\\Desktop\\AchvBot\\WWAchvBot\\WWAchvBot\\bin\\Release\\WWAchvBot.exe";
+        public const string destinationExePath = "C:\\Users\\Flom\\Desktop\\AchvBot\\Running\\";
 
         public static User Bot;
         public static readonly int[] wwbots = new[] { 175844556, 198626752 };
@@ -120,8 +123,9 @@ namespace WWAchvBot
             }
             Methods.EditMessage(startuptxt, startup);
 
-            if (!System.IO.File.Exists(restartFile)) startuptxt += "<b>No restart file found!</b>\n";
-            if (!System.IO.File.Exists(updateFile)) startuptxt += "<b>No update file found!</b>\n";
+            if (!System.IO.File.Exists(gitPullFile)) startuptxt += "<b>No git pull file found!</b>\n";
+            if (!System.IO.File.Exists(nugetRestoreFile)) startuptxt += "<b>No nuget restore file found!</b>\n";
+            if (!System.IO.File.Exists(buildFile)) startuptxt += "<b>No devenv build file found!</b>\n";
 
             GameClearer.Start();
             startuptxt += "The Game Cleaner was started!\n";
@@ -374,6 +378,7 @@ namespace WWAchvBot
             devcommands.Add("/backup", type.GetMethod("SendDBBackup"));
             devcommands.Add("/usebackup", type.GetMethod("UseDBBackup"));
             devcommands.Add("/unusebackup", type.GetMethod("UnuseDBBackup"));
+            devcommands.Add("/update", type.GetMethod("UpdateBot"));
 
             type = typeof(Callbacks);
 
