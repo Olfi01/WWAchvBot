@@ -335,7 +335,17 @@ namespace WWAchvBot
                 var path = destinationReleasePath + "Build_" + DateTime.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss");
                 System.IO.Directory.CreateDirectory(path);
                 System.Diagnostics.Process.Start("xcopy.exe", $"/E {sourceReleasePath} {path}").WaitForExit();
-                updateMessage = EditMessage(updateMessage.Text + "\nRelease copied to bot. Path:\n\n" + path + "\\WWAchvBot.exe\n\n<b>Operation complete.</b>", updateMessage);
+
+                int deleted = 0;
+                var builds = System.IO.Directory.EnumerateDirectories(destinationReleasePath);
+
+                foreach (var build in builds.Take(builds.Count() - 3)) // keep the current build and 2 previous builds
+                {
+                    System.IO.Directory.Delete(build);
+                    deleted++;
+                }
+
+                updateMessage = EditMessage(updateMessage.Text + "\nRelease copied to bot. Path:\n\n" + path + "\\WWAchvBot.exe\n\nDeleted <b>" + deleted + " old builds, kept the 3 most current ones.\n\n<b>Operation complete.</b>", updateMessage);
             }
         }
 
