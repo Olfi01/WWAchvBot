@@ -1080,7 +1080,7 @@ namespace WWAchvBot
 
 
         /// <summary>
-        /// Called on admin commands: /update
+        /// Called on admin commands: /upgrade
         /// </summary>
         public static void UpdateBot(Update update, string[] args)
         {

@@ -385,7 +385,7 @@ namespace WWAchvBot
             devcommands.Add("/backup", type.GetMethod("SendDBBackup"));
             devcommands.Add("/usebackup", type.GetMethod("UseDBBackup"));
             devcommands.Add("/unusebackup", type.GetMethod("UnuseDBBackup"));
-            devcommands.Add("/update", type.GetMethod("UpdateBot"));
+            devcommands.Add("/upgrade", type.GetMethod("UpdateBot"));
 
             type = typeof(Callbacks);
 
