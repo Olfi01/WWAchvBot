@@ -297,12 +297,15 @@ namespace WWAchvBot
                 #region Callback queries
                 else if (e.Update.Type == UpdateType.CallbackQueryUpdate)
                 {
-                    var text = e.Update.CallbackQuery.Data;
+                    if (e.Update.CallbackQuery.Message.Date.ToUniversalTime() > DateTime.UtcNow.AddSeconds(5))
+                    {
+                        var text = e.Update.CallbackQuery.Data;
 
-                    var args = new[] { text.Split('|')[0], text.Remove(0, text.IndexOf('|') + 1) };
-                    if (maintenance && e.Update.CallbackQuery.Message.Chat.Id != testgroup && !adminIds.Contains(e.Update.CallbackQuery.From.Id)) return;
+                        var args = new[] { text.Split('|')[0], text.Remove(0, text.IndexOf('|') + 1) };
+                        if (maintenance && e.Update.CallbackQuery.Message.Chat.Id != testgroup && !adminIds.Contains(e.Update.CallbackQuery.From.Id)) return;
 
-                    if (callbacks.ContainsKey(args[0])) callbacks[args[0]].Invoke(null, new object[] { e.Update, args });
+                        if (callbacks.ContainsKey(args[0])) callbacks[args[0]].Invoke(null, new object[] { e.Update, args });
+                    }
                 }
                 #endregion
 
