@@ -320,7 +320,12 @@ namespace WWAchvBot
                 updateMessage = EditMessage(updateMessage.Text + "\nRelease built.\n\n<b>Copying release to bot...</b>", updateMessage);
                 var path = destinationReleasePath + "Build_" + DateTime.UtcNow.ToString("yyyy-MM-dd-HH-mm-ss");
                 System.IO.Directory.CreateDirectory(path);
-                System.IO.File.Copy(sourceReleasePath + "*.*", path);
+
+                foreach (var file in System.IO.Directory.EnumerateFiles(sourceReleasePath))
+                {
+                    System.IO.File.Copy(file, path);
+                }
+
                 updateMessage = EditMessage(updateMessage.Text + "\nRelease copied to bot. Path:\n\n" + path + "\\WWAchvBot.exe\n\n<b>Operation complete.</b>", updateMessage);
             }
         }
