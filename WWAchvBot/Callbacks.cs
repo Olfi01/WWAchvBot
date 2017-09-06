@@ -112,11 +112,11 @@ namespace WWAchvBot
                         startuptxt = "<b>Restarting...</b>\n";
                         startup = SendMessage(startuptxt, testgroup);
 
-                        DateTime endtime1 = DateTime.UtcNow;
+                        DateTime endtime = DateTime.UtcNow;
                         client.StopReceiving();
-                        startuptxt += $"Bot stopped at \n<code>{endtime1.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n\n<b>Shutdown complete.</b>";
+                        startuptxt += $"Bot stopped at \n<code>{endtime.ToString("dd.MM.yyyy HH:mm:ss")} UTC</code>\n\n<b>Shutdown complete.</b>";
                         EditMessage(startuptxt, startup);
-                        System.Diagnostics.Process.Start(newest);
+                        NewExeToStart = newest;
                         running = false;
                         return;
 

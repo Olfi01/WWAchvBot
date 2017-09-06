@@ -22,6 +22,8 @@ namespace WWAchvBot
         public const string sourceReleasePath = "C:\\Users\\Flom\\Desktop\\AchvBot\\WWAchvBot\\WWAchvBot\\bin\\Release";
         public const string destinationReleasePath = "C:\\Users\\Flom\\Desktop\\AchvBot\\Running\\";
 
+        public static string NewExeToStart = null;
+
         public static User Bot;
         public static readonly int[] wwbots = new[] { 175844556, 198626752 };
 
@@ -61,6 +63,8 @@ namespace WWAchvBot
 
         static void Main(string[] args)
         {
+            System.Threading.Thread.Sleep(1000); // give the old version a second to shut down
+
             if (System.IO.File.Exists("C:\\Olgabrezel\\AchvBot.sqlite.new"))
             {
                 System.IO.File.Delete("C:\\Olgabrezel\\AchvBot.sqlite");
@@ -150,6 +154,7 @@ namespace WWAchvBot
                 Thread.Sleep(1000);
             }
             GameClearer.Abort();
+            if (!string.IsNullOrEmpty(NewExeToStart)) System.Diagnostics.Process.Start(NewExeToStart);
             return;
         }
 
